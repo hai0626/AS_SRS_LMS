@@ -18,5 +18,6 @@ namespace WebApplication1.Model
         public string Email { get; set; }
         public bool Gender { get; set; }
         public int Roles { get; set; }
+        public string Images { get; set; }
     }
 }

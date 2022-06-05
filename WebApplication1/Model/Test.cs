@@ -2,21 +2,19 @@
 using System.ComponentModel.DataAnnotations.Schema;
 namespace WebApplication1.Model
 {
-    public class Exam
+    public class Test
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdExam { get; set; }
-        public string NameExam { get; set; }
-        public string Content { get; set; }
-        public string TypeTest { get; set; }
+        public int IdTest { get; set; }
+        public string NameTest { get; set; }
         public DateTime Date { get; set; }
         public int Time { get; set; }
-        public string Description  { get; set; }
-        public string ExamCode  { get; set; }
         public bool Status { get; set; }
         public int IdSubject { get; set; }
         public Subject Subject  { get; set; }
+        public int IdUser { get; set; }
+        public User user { get; set; }
 
     }
 }

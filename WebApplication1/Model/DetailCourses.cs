@@ -3,16 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplication1.Model
 {
-    public class DetailSubject
+    public class DetailCourses
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int DetailSubjectId { get; set; }
-
-        public int IdSubject { get; set; }
-        public Subject Subjects { get; set; }
-        public int IdCourse { get; set; }
+        public int DetailCourseId { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
+        public int CourseId { get; set; }
         public Courses Course { get; set; }
-        public Schedule Schedule { get; set; }
     }
 }

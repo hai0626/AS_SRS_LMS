@@ -2,14 +2,14 @@
 using System.ComponentModel.DataAnnotations.Schema;
 namespace WebApplication1.Model
 {
-    public class Schedule
+    public class TestSchedule
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdSchedule { get; set; }
+        public int IdTestSchedule { get; set; }
+        public DateTime DayExam { get; set; }
         public DateTime Time { get; set; }
-        public DateTime DayLearn { get; set; }
-        public int IdSubject { get; set; }
-        public Subject subject { get; set; }
+
+        public List<Exam> Exam { get; set; }
     }
 }

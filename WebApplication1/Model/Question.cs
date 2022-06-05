@@ -1,18 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
 namespace WebApplication1.Model
 {
-    public class DetailSubject
+    public class Question
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int DetailSubjectId { get; set; }
+        public string IdQuestion { get; set; }
+        public string Content { get; set; }
+        public string Form { get; set; }
 
         public int IdSubject { get; set; }
-        public Subject Subjects { get; set; }
-        public int IdCourse { get; set; }
-        public Courses Course { get; set; }
-        public Schedule Schedule { get; set; }
+        public Subject subject { get; set; }
     }
 }
