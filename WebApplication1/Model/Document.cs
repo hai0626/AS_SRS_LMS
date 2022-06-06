@@ -11,5 +11,7 @@ namespace WebApplication1.Model
         public int IdDocument { get; set; }
         public int NameDocument { get; set; }
         public string Link { get; set; }
+        public int IdSubject { get; set; }
+        public Subject subject { get; set; }
     }
 }

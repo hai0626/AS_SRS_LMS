@@ -10,7 +10,6 @@ namespace WebApplication1.Model
         public float ScoreAvg { get; set; }
         public float AttendancePoint { get; set; }
         public float ScoreOralTest { get; set; }
-        public float Score15M { get; set; }
         public float Score { get; set; }
         public float Score15Minunes { get; set; }
         public float ScoreCoefficient2 { get; set; }

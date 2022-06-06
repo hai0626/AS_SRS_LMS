@@ -17,7 +17,8 @@ namespace WebApplication1.Model
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public bool Gender { get; set; }
-        public int Roles { get; set; }
         public string Images { get; set; }
+        public int IdPermission { get; set; }
+        public Permission permission { get; set; }
     }
 }

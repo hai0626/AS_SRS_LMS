@@ -9,7 +9,6 @@ namespace WebApplication1.Model
         public string IdQuestion { get; set; }
         public string Content { get; set; }
         public string Form { get; set; }
-
         public int IdSubject { get; set; }
         public Subject subject { get; set; }
     }
