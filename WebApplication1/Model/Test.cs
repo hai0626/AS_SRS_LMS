@@ -6,7 +6,7 @@ namespace WebApplication1.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdTest { get; set; }
+        public int TestId { get; set; }
         public string NameTest { get; set; }
         public DateTime Date { get; set; }
         public int Time { get; set; }

@@ -6,7 +6,7 @@ namespace WebApplication1.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string IdLR { get; set; }
+        public string LRId { get; set; }
         public float ScoreAvg { get; set; }
         public float AttendancePoint { get; set; }
         public float ScoreOralTest { get; set; }

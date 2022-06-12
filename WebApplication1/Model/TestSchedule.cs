@@ -6,10 +6,9 @@ namespace WebApplication1.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdTestSchedule { get; set; }
+        public int TestScheduleId { get; set; }
         public DateTime DayExam { get; set; }
         public DateTime Time { get; set; }
-
         public List<Exam> Exam { get; set; }
     }
 }

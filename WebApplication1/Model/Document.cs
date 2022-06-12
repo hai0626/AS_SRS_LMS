@@ -8,7 +8,7 @@ namespace WebApplication1.Model
        
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdDocument { get; set; }
+        public int DocumentId { get; set; }
         public int NameDocument { get; set; }
         public string Link { get; set; }
         public int IdSubject { get; set; }

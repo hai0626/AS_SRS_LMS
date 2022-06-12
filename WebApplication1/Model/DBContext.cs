@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 namespace WebApplication1.Model
 {
-    public class DataContext : DbContext
+    public class DBContext : DbContext
     {
-        public DataContext(DbContextOptions options) : base(options)
+        public DBContext(DbContextOptions options) : base(options)
         {
 
         }
@@ -19,7 +19,8 @@ namespace WebApplication1.Model
         public DbSet<Test> Test { get; set; }
         public DbSet<Subject> Subject { get; set; }
         public DbSet<TestSchedule> TestSchedule { get; set; }
-        public DbSet<Permission> Permission { get; set; }
+        public DbSet<Role> Role { get; set; }
         public DbSet<ContentTest> ContentTest { get; set; }
+       
     }
 }

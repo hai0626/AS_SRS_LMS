@@ -11,9 +11,9 @@ using WebApplication1.Model;
 
 namespace WebApplication1.Migrations
 {
-    [DbContext(typeof(DataContext))]
-    [Migration("20220606032111_fistdb")]
-    partial class fistdb
+    [DbContext(typeof(DBContext))]
+    [Migration("20220612094533_db3")]
+    partial class db3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,7 +26,7 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Model.Answer", b =>
                 {
-                    b.Property<string>("IdAnswer")
+                    b.Property<string>("AnswerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
@@ -34,25 +34,25 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ExamId")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdExam")
                         .HasColumnType("int");
 
                     b.Property<bool>("RightWrong")
                         .HasColumnType("bit");
 
-                    b.Property<int>("examIdExam")
-                        .HasColumnType("int");
+                    b.HasKey("AnswerId");
 
-                    b.HasKey("IdAnswer");
-
-                    b.HasIndex("examIdExam");
+                    b.HasIndex("ExamId");
 
                     b.ToTable("Answer");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Class", b =>
                 {
-                    b.Property<string>("IdClass")
+                    b.Property<string>("ClassId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
@@ -73,24 +73,23 @@ namespace WebApplication1.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<string>("subjectIdSubject")
-                        .IsRequired()
+                    b.Property<string>("SubjectId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("IdClass");
+                    b.HasKey("ClassId");
 
-                    b.HasIndex("subjectIdSubject");
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("Class");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.ContentTest", b =>
                 {
-                    b.Property<int>("IdContent")
+                    b.Property<int>("ContentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdContent"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContentId"), 1L, 1);
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -102,23 +101,26 @@ namespace WebApplication1.Migrations
                     b.Property<int>("Result")
                         .HasColumnType("int");
 
-                    b.Property<int>("testIdTest")
+                    b.Property<int>("TestId")
                         .HasColumnType("int");
 
-                    b.HasKey("IdContent");
+                    b.HasKey("ContentId");
 
-                    b.HasIndex("testIdTest");
+                    b.HasIndex("TestId");
 
                     b.ToTable("ContentTest");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Document", b =>
                 {
-                    b.Property<int>("IdDocument")
+                    b.Property<int>("DocumentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdDocument"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocumentId"), 1L, 1);
+
+                    b.Property<int>("IdSubject")
+                        .HasColumnType("int");
 
                     b.Property<string>("Link")
                         .IsRequired()
@@ -127,18 +129,23 @@ namespace WebApplication1.Migrations
                     b.Property<int>("NameDocument")
                         .HasColumnType("int");
 
-                    b.HasKey("IdDocument");
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("DocumentId");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("Document");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Exam", b =>
                 {
-                    b.Property<int>("IdExam")
+                    b.Property<int>("ExamId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdExam"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExamId"), 1L, 1);
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -165,11 +172,10 @@ namespace WebApplication1.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<string>("SubjectIdSubject")
-                        .IsRequired()
+                    b.Property<string>("SubjectId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("TestScheduleIdTestSchedule")
+                    b.Property<int?>("TestScheduleId")
                         .HasColumnType("int");
 
                     b.Property<int>("Time")
@@ -179,18 +185,18 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdExam");
+                    b.HasKey("ExamId");
 
-                    b.HasIndex("SubjectIdSubject");
+                    b.HasIndex("SubjectId");
 
-                    b.HasIndex("TestScheduleIdTestSchedule");
+                    b.HasIndex("TestScheduleId");
 
                     b.ToTable("Exam");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.LearningResult", b =>
                 {
-                    b.Property<string>("IdLR")
+                    b.Property<string>("LRId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
@@ -227,52 +233,29 @@ namespace WebApplication1.Migrations
                     b.Property<float>("ScoreOralTest")
                         .HasColumnType("real");
 
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<float>("SumScoreAvg")
                         .HasColumnType("real");
 
-                    b.Property<string>("subjectIdSubject")
-                        .IsRequired()
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("userIdUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.HasKey("LRId");
 
-                    b.HasKey("IdLR");
+                    b.HasIndex("SubjectId");
 
-                    b.HasIndex("subjectIdSubject");
-
-                    b.HasIndex("userIdUser");
+                    b.HasIndex("UserId");
 
                     b.ToTable("LearningResult");
                 });
 
-            modelBuilder.Entity("WebApplication1.Model.Permission", b =>
-                {
-                    b.Property<int>("IdPermission")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPermission"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdPermission");
-
-                    b.ToTable("Permission");
-                });
-
             modelBuilder.Entity("WebApplication1.Model.Question", b =>
                 {
-                    b.Property<string>("IdQuestion")
+                    b.Property<string>("QuestionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Form")
                         .IsRequired()
@@ -281,25 +264,27 @@ namespace WebApplication1.Migrations
                     b.Property<int>("IdSubject")
                         .HasColumnType("int");
 
-                    b.Property<string>("subjectIdSubject")
-                        .IsRequired()
+                    b.Property<string>("SubjectId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("IdQuestion");
+                    b.HasKey("QuestionId");
 
-                    b.HasIndex("subjectIdSubject");
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("Question");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.ResultExam", b =>
                 {
-                    b.Property<string>("IdResult")
+                    b.Property<string>("ResultId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DayExam")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("ExamId")
+                        .HasColumnType("int");
 
                     b.Property<int>("IdExam")
                         .HasColumnType("int");
@@ -310,29 +295,42 @@ namespace WebApplication1.Migrations
                     b.Property<float>("Score")
                         .HasColumnType("real");
 
-                    b.Property<int>("examIdExam")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userIdUser")
-                        .IsRequired()
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("IdResult");
+                    b.HasKey("ResultId");
 
-                    b.HasIndex("examIdExam");
+                    b.HasIndex("ExamId");
 
-                    b.HasIndex("userIdUser");
+                    b.HasIndex("UserId");
 
                     b.ToTable("ResultExam");
                 });
 
-            modelBuilder.Entity("WebApplication1.Model.Schedule", b =>
+            modelBuilder.Entity("WebApplication1.Model.Role", b =>
                 {
-                    b.Property<int>("IdSchedule")
+                    b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdSchedule"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Role");
+                });
+
+            modelBuilder.Entity("WebApplication1.Model.Schedule", b =>
+                {
+                    b.Property<int>("ScheduleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduleId"), 1L, 1);
 
                     b.Property<DateTime>("DayLearn")
                         .HasColumnType("datetime2");
@@ -340,23 +338,22 @@ namespace WebApplication1.Migrations
                     b.Property<int>("IdSubject")
                         .HasColumnType("int");
 
+                    b.Property<string>("SubjectId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("subjectIdSubject")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.HasKey("ScheduleId");
 
-                    b.HasKey("IdSchedule");
-
-                    b.HasIndex("subjectIdSubject");
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("Schedule");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Subject", b =>
                 {
-                    b.Property<string>("IdSubject")
+                    b.Property<string>("SubjectId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
@@ -373,18 +370,18 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdSubject");
+                    b.HasKey("SubjectId");
 
                     b.ToTable("Subject");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Test", b =>
                 {
-                    b.Property<int>("IdTest")
+                    b.Property<int>("TestId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdTest"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TestId"), 1L, 1);
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -402,32 +399,32 @@ namespace WebApplication1.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<string>("SubjectIdSubject")
+                    b.Property<string>("SubjectId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Time")
                         .HasColumnType("int");
 
-                    b.Property<string>("userIdUser")
-                        .IsRequired()
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("IdTest");
+                    b.HasKey("TestId");
 
-                    b.HasIndex("SubjectIdSubject");
+                    b.HasIndex("SubjectId");
 
-                    b.HasIndex("userIdUser");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Test");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.TestSchedule", b =>
                 {
-                    b.Property<int>("IdTestSchedule")
+                    b.Property<int>("TestScheduleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdTestSchedule"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TestScheduleId"), 1L, 1);
 
                     b.Property<DateTime>("DayExam")
                         .HasColumnType("datetime2");
@@ -435,22 +432,24 @@ namespace WebApplication1.Migrations
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("IdTestSchedule");
+                    b.HasKey("TestScheduleId");
 
                     b.ToTable("TestSchedule");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.User", b =>
                 {
-                    b.Property<string>("IdUser")
+                    b.Property<string>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<string>("ClassId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -458,21 +457,15 @@ namespace WebApplication1.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Gender")
+                    b.Property<bool?>("Gender")
                         .HasColumnType("bit");
 
-                    b.Property<int>("IdPermission")
-                        .HasColumnType("int");
-
                     b.Property<string>("Images")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
@@ -480,19 +473,16 @@ namespace WebApplication1.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("permissionIdPermission")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("IdUser");
+                    b.HasKey("UserId");
 
-                    b.HasIndex("permissionIdPermission");
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -501,7 +491,7 @@ namespace WebApplication1.Migrations
                 {
                     b.HasOne("WebApplication1.Model.Exam", "exam")
                         .WithMany()
-                        .HasForeignKey("examIdExam")
+                        .HasForeignKey("ExamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -511,10 +501,8 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.Model.Class", b =>
                 {
                     b.HasOne("WebApplication1.Model.Subject", "subject")
-                        .WithMany()
-                        .HasForeignKey("subjectIdSubject")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("classes")
+                        .HasForeignKey("SubjectId");
 
                     b.Navigation("subject");
                 });
@@ -523,24 +511,31 @@ namespace WebApplication1.Migrations
                 {
                     b.HasOne("WebApplication1.Model.Test", "test")
                         .WithMany()
-                        .HasForeignKey("testIdTest")
+                        .HasForeignKey("TestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("test");
                 });
 
+            modelBuilder.Entity("WebApplication1.Model.Document", b =>
+                {
+                    b.HasOne("WebApplication1.Model.Subject", "subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
+
+                    b.Navigation("subject");
+                });
+
             modelBuilder.Entity("WebApplication1.Model.Exam", b =>
                 {
                     b.HasOne("WebApplication1.Model.Subject", "Subject")
                         .WithMany()
-                        .HasForeignKey("SubjectIdSubject")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubjectId");
 
                     b.HasOne("WebApplication1.Model.TestSchedule", null)
                         .WithMany("Exam")
-                        .HasForeignKey("TestScheduleIdTestSchedule");
+                        .HasForeignKey("TestScheduleId");
 
                     b.Navigation("Subject");
                 });
@@ -549,15 +544,11 @@ namespace WebApplication1.Migrations
                 {
                     b.HasOne("WebApplication1.Model.Subject", "subject")
                         .WithMany()
-                        .HasForeignKey("subjectIdSubject")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubjectId");
 
                     b.HasOne("WebApplication1.Model.User", "user")
                         .WithMany()
-                        .HasForeignKey("userIdUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("subject");
 
@@ -568,9 +559,7 @@ namespace WebApplication1.Migrations
                 {
                     b.HasOne("WebApplication1.Model.Subject", "subject")
                         .WithMany()
-                        .HasForeignKey("subjectIdSubject")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubjectId");
 
                     b.Navigation("subject");
                 });
@@ -579,15 +568,13 @@ namespace WebApplication1.Migrations
                 {
                     b.HasOne("WebApplication1.Model.Exam", "exam")
                         .WithMany()
-                        .HasForeignKey("examIdExam")
+                        .HasForeignKey("ExamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebApplication1.Model.User", "user")
                         .WithMany()
-                        .HasForeignKey("userIdUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("exam");
 
@@ -598,9 +585,7 @@ namespace WebApplication1.Migrations
                 {
                     b.HasOne("WebApplication1.Model.Subject", "subject")
                         .WithMany()
-                        .HasForeignKey("subjectIdSubject")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubjectId");
 
                     b.Navigation("subject");
                 });
@@ -609,13 +594,13 @@ namespace WebApplication1.Migrations
                 {
                     b.HasOne("WebApplication1.Model.Subject", "Subject")
                         .WithMany()
-                        .HasForeignKey("SubjectIdSubject");
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebApplication1.Model.User", "user")
                         .WithMany()
-                        .HasForeignKey("userIdUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Subject");
 
@@ -624,13 +609,27 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Model.User", b =>
                 {
-                    b.HasOne("WebApplication1.Model.Permission", "permission")
+                    b.HasOne("WebApplication1.Model.Class", null)
+                        .WithMany("users")
+                        .HasForeignKey("ClassId");
+
+                    b.HasOne("WebApplication1.Model.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("permissionIdPermission")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("permission");
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("WebApplication1.Model.Class", b =>
+                {
+                    b.Navigation("users");
+                });
+
+            modelBuilder.Entity("WebApplication1.Model.Subject", b =>
+                {
+                    b.Navigation("classes");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.TestSchedule", b =>
