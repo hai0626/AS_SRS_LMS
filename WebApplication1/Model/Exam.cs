@@ -17,6 +17,9 @@ namespace WebApplication1.Model
         public bool Status { get; set; }
         public int IdSubject { get; set; }
         public Subject Subject  { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
+        public List<ContentTest> contentTests { get; set; }
 
     }
 }

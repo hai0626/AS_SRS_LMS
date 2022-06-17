@@ -13,7 +13,6 @@ namespace WebApplication1.Model
         public int Amount { get; set; }
         public bool Status { get; set; }
         public int IdSubject { get; set; }
-        public Subject subject { get; set; }
-        public List<User> users { get; set; }
+        
     }
 }

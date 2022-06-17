@@ -17,7 +17,10 @@ namespace WebApplication1.Model
         public string Email { get; set; }
         public bool? Gender { get; set; }
         public string? Images { get; set; }
+        //public string? VerificationToken { get; set; }
+        //public DateTime? VerifiedAt { get; set; }
         public int RoleId { get; set; }
         public Role Role { get; set; }
+        //public List<Exam> Exams { get; set; }
     }
 }

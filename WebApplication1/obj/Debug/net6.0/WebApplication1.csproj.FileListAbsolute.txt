@@ -59,3 +59,5 @@ D:\ThucTap\AS_SRS_LMS\WebApplication1\obj\Debug\net6.0\refint\WebApplication1.dl
 D:\ThucTap\AS_SRS_LMS\WebApplication1\obj\Debug\net6.0\WebApplication1.pdb
 D:\ThucTap\AS_SRS_LMS\WebApplication1\obj\Debug\net6.0\WebApplication1.genruntimeconfig.cache
 D:\ThucTap\AS_SRS_LMS\WebApplication1\obj\Debug\net6.0\ref\WebApplication1.dll
+D:\ThucTap\AS_SRS_LMS\WebApplication1\bin\Debug\net6.0\Microsoft.Practices.ServiceLocation.dll
+D:\ThucTap\AS_SRS_LMS\WebApplication1\bin\Debug\net6.0\XAct.Core.PCL.dll

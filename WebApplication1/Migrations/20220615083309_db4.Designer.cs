@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Model;
 
@@ -11,9 +12,10 @@ using WebApplication1.Model;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20220615083309_db4")]
+    partial class db4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,9 +95,6 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ExamId")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdTest")
                         .HasColumnType("int");
 
@@ -106,8 +105,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ContentId");
-
-                    b.HasIndex("ExamId");
 
                     b.HasIndex("TestId");
 
@@ -188,19 +185,11 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("ExamId");
 
                     b.HasIndex("SubjectId");
 
                     b.HasIndex("TestScheduleId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Exam");
                 });
@@ -457,6 +446,9 @@ namespace WebApplication1.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ClassId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
@@ -486,13 +478,9 @@ namespace WebApplication1.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<string>("VerificationToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("VerifiedAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("UserId");
+
+                    b.HasIndex("ClassId");
 
                     b.HasIndex("RoleId");
 
@@ -512,17 +500,15 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Model.Class", b =>
                 {
-                    b.HasOne("WebApplication1.Model.Subject", null)
+                    b.HasOne("WebApplication1.Model.Subject", "subject")
                         .WithMany("classes")
                         .HasForeignKey("SubjectId");
+
+                    b.Navigation("subject");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.ContentTest", b =>
                 {
-                    b.HasOne("WebApplication1.Model.Exam", null)
-                        .WithMany("contentTests")
-                        .HasForeignKey("ExamId");
-
                     b.HasOne("WebApplication1.Model.Test", "test")
                         .WithMany()
                         .HasForeignKey("TestId")
@@ -551,13 +537,7 @@ namespace WebApplication1.Migrations
                         .WithMany("Exam")
                         .HasForeignKey("TestScheduleId");
 
-                    b.HasOne("WebApplication1.Model.User", "User")
-                        .WithMany("Exams")
-                        .HasForeignKey("UserId1");
-
                     b.Navigation("Subject");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.LearningResult", b =>
@@ -629,6 +609,10 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Model.User", b =>
                 {
+                    b.HasOne("WebApplication1.Model.Class", null)
+                        .WithMany("users")
+                        .HasForeignKey("ClassId");
+
                     b.HasOne("WebApplication1.Model.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
@@ -638,9 +622,9 @@ namespace WebApplication1.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("WebApplication1.Model.Exam", b =>
+            modelBuilder.Entity("WebApplication1.Model.Class", b =>
                 {
-                    b.Navigation("contentTests");
+                    b.Navigation("users");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Subject", b =>
@@ -651,11 +635,6 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.Model.TestSchedule", b =>
                 {
                     b.Navigation("Exam");
-                });
-
-            modelBuilder.Entity("WebApplication1.Model.User", b =>
-                {
-                    b.Navigation("Exams");
                 });
 #pragma warning restore 612, 618
         }
