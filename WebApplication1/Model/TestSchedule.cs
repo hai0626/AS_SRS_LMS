@@ -9,6 +9,5 @@ namespace WebApplication1.Model
         public int TestScheduleId { get; set; }
         public DateTime DayExam { get; set; }
         public DateTime Time { get; set; }
-        public List<Exam> Exam { get; set; }
     }
 }

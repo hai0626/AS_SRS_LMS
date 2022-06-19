@@ -1,19 +1,20 @@
 ﻿using WebApplication1.Model;
+using WebApplication1.Request;
 
 namespace WebApplication1.Interface
 {
-    public interface IUser
+    public interface IUClass
     {
         List<User> GetAllUser();
         int Register(UserRequest user);
         int Login(string email, string pass);
         int ForgotPassword(string email, string phone, string newpass);
-        int DeleteUser(string id);
-        int UpdateUser(UserRequest user,string id);
+        int DeleteUser(int id);
+        int UpdateUser(int id);
 
 
     }
-    public class UserManager : IUser
+    public class UserManager : IUClass
     {
         private readonly DBContext _context;
         public UserManager(DBContext context)
@@ -21,7 +22,7 @@ namespace WebApplication1.Interface
             _context = context;
         }
 
-        public int DeleteUser(string id)
+        public int DeleteUser(int id)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserId == id);
             if (user != null)
@@ -93,7 +94,7 @@ namespace WebApplication1.Interface
             }
         }
 
-        public int UpdateUser(UserRequest request, string id)
+        public int UpdateUser(int id)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserId == id);
             if (user != null)
@@ -102,6 +103,7 @@ namespace WebApplication1.Interface
             }
             else
             {
+                UserRequest request = new UserRequest();
                 var New = new User
                 {
                     Email = request.Email,

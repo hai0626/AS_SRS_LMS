@@ -17,8 +17,6 @@ namespace WebApplication1.Model
         public float SumScoreAvg { get; set; }
         public bool ResultOfEvaluation { get; set; }
         public DateTime DateUpdate { get; set; }
-        public int IdSubject { get; set; }
-        public Subject subject { get; set; }
         public int IdUser { get; set; }
         public User user { get; set; }
     }

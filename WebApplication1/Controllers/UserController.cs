@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Interface;
 using WebApplication1.Model;
+using WebApplication1.Request;
 
 namespace WebApplication1.Controllers
 {
@@ -12,8 +13,8 @@ namespace WebApplication1.Controllers
     public class UserController : ControllerBase
     {
      
-        private readonly IUser _user;
-        public UserController(IUser user)
+        private readonly IUClass _user;
+        public UserController(IUClass user)
         {
             _user = user;
         }

@@ -7,11 +7,10 @@ namespace WebApplication1.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string SubjectId { get; set; }
+        public int SubjectId { get; set; }
         public string SubjectName { get; set; }
         public int Period { get; set; }
         public DateTime StartDay { get; set; }
         public DateTime EndDay { get; set; }
-        public ICollection<Class> classes { get; set; }
     }
 }

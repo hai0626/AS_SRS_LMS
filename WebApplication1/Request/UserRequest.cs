@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace WebApplication1.Interface
+
+namespace WebApplication1.Request
 {
     public class UserRequest
     {
