@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Model;
 
@@ -11,9 +12,10 @@ using WebApplication1.Model;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20220620145308_db")]
+    partial class db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,34 +81,6 @@ namespace WebApplication1.Migrations
                     b.ToTable("ContentTest");
                 });
 
-            modelBuilder.Entity("WebApplication1.Model.DetailClass", b =>
-                {
-                    b.Property<int>("DetailClassId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DetailClassId"), 1L, 1);
-
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SemesterId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DetailClassId");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("SemesterId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("DetailClass");
-                });
-
             modelBuilder.Entity("WebApplication1.Model.DetailSubject", b =>
                 {
                     b.Property<int>("DetailId")
@@ -122,6 +96,7 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ScheduleId1")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("SubjectId")
@@ -135,7 +110,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("DetailSubject");
+                    b.ToTable("Schedule");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Document", b =>
@@ -330,7 +305,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ResultExam");
+                    b.ToTable("Test");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Role", b =>
@@ -372,7 +347,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("ScheduleId");
 
-                    b.ToTable("Schedule");
+                    b.ToTable("ResultExam");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Semester", b =>
@@ -395,7 +370,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("SemesterId");
 
-                    b.ToTable("Semester");
+                    b.ToTable("TestSchedule");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Subject", b =>
@@ -436,7 +411,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("TypeExamId");
 
-                    b.ToTable("TypeExam");
+                    b.ToTable("Answer");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.User", b =>
@@ -505,33 +480,6 @@ namespace WebApplication1.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("WebApplication1.Model.DetailClass", b =>
-                {
-                    b.HasOne("WebApplication1.Model.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication1.Model.Semester", "Semester")
-                        .WithMany()
-                        .HasForeignKey("SemesterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication1.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Class");
-
-                    b.Navigation("Semester");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("WebApplication1.Model.DetailSubject", b =>
                 {
                     b.HasOne("WebApplication1.Model.Class", "Class")
@@ -542,7 +490,9 @@ namespace WebApplication1.Migrations
 
                     b.HasOne("WebApplication1.Model.Schedule", "Schedule")
                         .WithMany()
-                        .HasForeignKey("ScheduleId1");
+                        .HasForeignKey("ScheduleId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebApplication1.Model.Subject", "Subject")
                         .WithMany("DetailSubjects")

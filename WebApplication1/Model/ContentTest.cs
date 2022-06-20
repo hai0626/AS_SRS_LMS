@@ -12,6 +12,8 @@ namespace WebApplication1.Model
         public List<Question> Questions { get; set; }
         public int ExamID { get; set; }
         public Exam Exam { get; set; }
+        public int SubjectID { get; set; }
+        public Subject Subject { get; set; }
 
     }
 }

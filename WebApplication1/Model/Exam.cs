@@ -16,6 +16,7 @@ namespace WebApplication1.Model
         public string ExamCode  { get; set; }
         public bool Status { get; set; }
         public List<ContentTest> contentTests { get; set; }
+        public ResultExam ResultExam { get; set; }
 
     }
 }

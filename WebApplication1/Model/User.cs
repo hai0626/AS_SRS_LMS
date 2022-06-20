@@ -19,5 +19,8 @@ namespace WebApplication1.Model
         public string? Images { get; set; }
         public int RoleId { get; set; }
         public Role Role { get; set; }
+        public LearningResult LearningResult { get; set; }
+        public List<ResultExam> ResultExam { get; set; }
+
     }
 }

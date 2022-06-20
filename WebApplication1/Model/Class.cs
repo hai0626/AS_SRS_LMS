@@ -12,6 +12,8 @@ namespace WebApplication1.Model
         public string Link { get; set; }
         public int Amount { get; set; }
         public bool Status { get; set; }
+        public List<DetailSubject> DetailSubject { get; set; }
+        public List<DetailClass> DetailClass { get; set; }
         
         
     }

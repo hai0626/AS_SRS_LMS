@@ -2,12 +2,12 @@
 using System.ComponentModel.DataAnnotations.Schema;
 namespace WebApplication1.Model
 {
-    public class TestSchedule
+    public class TypeExam
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int TestScheduleId { get; set; }
-        public DateTime DayExam { get; set; }
-        public DateTime Time { get; set; }
+        public string TypeExamId { get; set; }
+        public string TypeExamName { get; set; }
+        public List<Exam> Exams { get; set; }
     }
 }
