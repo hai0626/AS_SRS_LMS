@@ -8,8 +8,8 @@ namespace WebApplication1.Interface
         List<Class> GetAllClass();
         int AddClass(ClassRequest request);
         int DetailClass(int id);
-        int DeleteUser(int id);
-        int UpdateUser(int id);
+        int DeleteClass(int id);
+        int UpdateClass(int id,ClassRequest request);
 
 
     }
@@ -23,7 +23,8 @@ namespace WebApplication1.Interface
 
         public int AddClass(ClassRequest request)
         {
-            if (request == null)
+            var name = _context.Class.FirstOrDefault(u => u.NameClass == request.Name);
+            if (name != null)
             {
                 return 0;
             }
@@ -33,6 +34,7 @@ namespace WebApplication1.Interface
                 {
                     NameClass = request.Name,
                     Amount = request.Amount,
+                    Link = request.link,
                     Status = request.status
                 };
                 _context.Class.Add(cls);
@@ -41,10 +43,10 @@ namespace WebApplication1.Interface
             }
         }
 
-        public int DeleteUser(int id)
+        public int DeleteClass(int id)
         {
             var cls = _context.Class.FirstOrDefault(u => u.ClassId == id);
-            if (cls != null)
+            if (cls == null)
             {
                 return 0;
             }
@@ -62,9 +64,7 @@ namespace WebApplication1.Interface
             if (cls == null)
                 return 0;
             return 1;
-    }
-
-        
+        }               
 
         public List<Class> GetAllClass()
         {
@@ -73,25 +73,23 @@ namespace WebApplication1.Interface
 
            
 
-        public int UpdateUser(int id)
+        public int UpdateClass(int id, ClassRequest request)
         {
-            var user = _context.Class.FirstOrDefault(u => u.ClassId == id);
-            if (user != null)
+            var cls = _context.Class.FirstOrDefault(u => u.ClassId == id);
+            if (cls != null)
             {
-                return 0;
-            }
-            else
-            {   
-                ClassRequest rq = new ClassRequest();
-                var cls = new Class
-                {
-                    NameClass = rq.Name,
-                    Amount = rq.Amount,
-                    Status = rq.status
-                };
+                cls.NameClass = request.Name;
+                cls.Amount = request.Amount;
+                cls.Link = request.link;
+                cls.Status = request.status;
                 _context.Class.Update(cls);
                 _context.SaveChanges();
                 return 1;
+            }
+            else
+            {
+                
+                return 0;
             }
         }       
 

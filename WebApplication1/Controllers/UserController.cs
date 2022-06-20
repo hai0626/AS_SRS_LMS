@@ -13,8 +13,8 @@ namespace WebApplication1.Controllers
     public class UserController : ControllerBase
     {
      
-        private readonly IUClass _user;
-        public UserController(IUClass user)
+        private readonly IUser _user;
+        public UserController(IUser user)
         {
             _user = user;
         }
@@ -53,6 +53,26 @@ namespace WebApplication1.Controllers
                 return BadRequest(new { message = "tai khoan khong ton tai" });
             }
             return Ok(new { message = "doi mat khau thanh cong" });
+        }
+        [HttpDelete("delete-user")]
+        public IActionResult DeleteUser(int id)
+        {
+            int login = _user.DeleteUser(id);
+            if (login == 0)
+            {
+                return BadRequest(new { message = "khong tim thay tai khoan" });
+            }
+            return Ok(new { message = "xoa thanh cong" });
+        }
+        [HttpPost("update-user")]
+        public IActionResult UpdateUser(int id, UserRequest rq)
+        {
+            int login = _user.UpdateUser(id,rq);
+            if (login == 0)
+            {
+                return BadRequest(new { message = "khong tim thay tai khoan" });
+            }
+            return Ok(new { message = "thay doi thanh cong" });
         }
     }
 }

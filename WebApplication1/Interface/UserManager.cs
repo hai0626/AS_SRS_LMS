@@ -3,18 +3,18 @@ using WebApplication1.Request;
 
 namespace WebApplication1.Interface
 {
-    public interface IUClass
+    public interface IUser
     {
         List<User> GetAllUser();
         int Register(UserRequest user);
         int Login(string email, string pass);
         int ForgotPassword(string email, string phone, string newpass);
         int DeleteUser(int id);
-        int UpdateUser(int id);
+        int UpdateUser(int id, UserRequest request);
 
 
     }
-    public class UserManager : IUClass
+    public class UserManager : IUser
     {
         private readonly DBContext _context;
         public UserManager(DBContext context)
@@ -27,13 +27,13 @@ namespace WebApplication1.Interface
             var user = _context.Users.FirstOrDefault(u => u.UserId == id);
             if (user != null)
             {
-                return 0;
-            }
-            else
-            {
                 _context.Users.Remove(user);
                 _context.SaveChanges();
                 return 1;
+            }
+            else
+            {
+                return 0;
             }
         }
 
@@ -94,30 +94,26 @@ namespace WebApplication1.Interface
             }
         }
 
-        public int UpdateUser(int id)
+        public int UpdateUser(int id, UserRequest request)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserId == id);
             if (user != null)
             {
-                return 0;
-            }
-            else
-            {
-                UserRequest request = new UserRequest();
-                var New = new User
-                {
-                    Email = request.Email,
-                    PhoneNumber = (request.phone).ToString(),
-                    Password = HashPass.Encrypt(request.Password),
-                    RoleId = request.RoleId,
-                };
+                user.Email = request.Email;
+                user.PhoneNumber = (request.phone).ToString();
+                user.Password = HashPass.Encrypt(request.Password);
+                user.RoleId = request.RoleId;
                 _context.Users.Update(user);
                 _context.SaveChanges();
                 return 1;
             }
+            else
+            {
+                return 0;
+            }
         }
 
-        
+
 
     }
 }
