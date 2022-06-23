@@ -10,49 +10,6 @@ namespace WebApplication1.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Answer",
-                columns: table => new
-                {
-                    TypeExamId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TypeExamName = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Answer", x => x.TypeExamId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Class",
-                columns: table => new
-                {
-                    ClassId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NameClass = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Class", x => x.ClassId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ResultExam",
-                columns: table => new
-                {
-                    ScheduleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ScheduleName = table.Column<float>(type: "real", nullable: false),
-                    DayLearn = table.Column<int>(type: "int", nullable: false),
-                    Start = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    End = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ResultExam", x => x.ScheduleId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Role",
                 columns: table => new
                 {
@@ -63,6 +20,37 @@ namespace WebApplication1.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Role", x => x.RoleId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedule",
+                columns: table => new
+                {
+                    ScheduleId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ScheduleName = table.Column<float>(type: "real", nullable: false),
+                    DayLearn = table.Column<int>(type: "int", nullable: false),
+                    Start = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    End = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedule", x => x.ScheduleId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Semester",
+                columns: table => new
+                {
+                    SemesterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SemesterName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDay = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDay = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Semester", x => x.SemesterId);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,44 +70,15 @@ namespace WebApplication1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TestSchedule",
+                name: "TypeExam",
                 columns: table => new
                 {
-                    SemesterId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SemesterName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDay = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDay = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    TypeExamId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TypeExamName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TestSchedule", x => x.SemesterId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Exam",
-                columns: table => new
-                {
-                    ExamId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NameExam = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TypeTest = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Time = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExamCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<bool>(type: "bit", nullable: false),
-                    TypeExamId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Exam", x => x.ExamId);
-                    table.ForeignKey(
-                        name: "FK_Exam_Answer_TypeExamId",
-                        column: x => x.TypeExamId,
-                        principalTable: "Answer",
-                        principalColumn: "TypeExamId");
+                    table.PrimaryKey("PK_TypeExam", x => x.TypeExamId);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,36 +132,56 @@ namespace WebApplication1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Schedule",
+                name: "Exam",
                 columns: table => new
                 {
-                    DetailId = table.Column<int>(type: "int", nullable: false)
+                    ExamId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClassId = table.Column<int>(type: "int", nullable: false),
-                    ScheduleId = table.Column<int>(type: "int", nullable: false),
-                    ScheduleId1 = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false)
+                    NameExam = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TypeTest = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Time = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExamCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    TypeExamId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Schedule", x => x.DetailId);
+                    table.PrimaryKey("PK_Exam", x => x.ExamId);
                     table.ForeignKey(
-                        name: "FK_Schedule_Class_ClassId",
-                        column: x => x.ClassId,
-                        principalTable: "Class",
-                        principalColumn: "ClassId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Exam_TypeExam_TypeExamId",
+                        column: x => x.TypeExamId,
+                        principalTable: "TypeExam",
+                        principalColumn: "TypeExamId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LearningResult",
+                columns: table => new
+                {
+                    LRId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ScoreAvg = table.Column<float>(type: "real", nullable: false),
+                    AttendancePoint = table.Column<float>(type: "real", nullable: false),
+                    ScoreOralTest = table.Column<float>(type: "real", nullable: false),
+                    Score = table.Column<float>(type: "real", nullable: false),
+                    Score15Minunes = table.Column<float>(type: "real", nullable: false),
+                    ScoreCoefficient2 = table.Column<float>(type: "real", nullable: false),
+                    ScoreCoefficient3 = table.Column<float>(type: "real", nullable: false),
+                    SumScoreAvg = table.Column<float>(type: "real", nullable: false),
+                    ResultOfEvaluation = table.Column<bool>(type: "bit", nullable: false),
+                    DateUpdate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LearningResult", x => x.LRId);
                     table.ForeignKey(
-                        name: "FK_Schedule_ResultExam_ScheduleId1",
-                        column: x => x.ScheduleId1,
-                        principalTable: "ResultExam",
-                        principalColumn: "ScheduleId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Schedule_Subject_SubjectId",
-                        column: x => x.SubjectId,
-                        principalTable: "Subject",
-                        principalColumn: "SubjectId",
+                        name: "FK_LearningResult_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -235,35 +214,7 @@ namespace WebApplication1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LearningResult",
-                columns: table => new
-                {
-                    LRId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ScoreAvg = table.Column<float>(type: "real", nullable: false),
-                    AttendancePoint = table.Column<float>(type: "real", nullable: false),
-                    ScoreOralTest = table.Column<float>(type: "real", nullable: false),
-                    Score = table.Column<float>(type: "real", nullable: false),
-                    Score15Minunes = table.Column<float>(type: "real", nullable: false),
-                    ScoreCoefficient2 = table.Column<float>(type: "real", nullable: false),
-                    ScoreCoefficient3 = table.Column<float>(type: "real", nullable: false),
-                    SumScoreAvg = table.Column<float>(type: "real", nullable: false),
-                    ResultOfEvaluation = table.Column<bool>(type: "bit", nullable: false),
-                    DateUpdate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LearningResult", x => x.LRId);
-                    table.ForeignKey(
-                        name: "FK_LearningResult_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Test",
+                name: "ResultExam",
                 columns: table => new
                 {
                     ResultExamId = table.Column<int>(type: "int", nullable: false)
@@ -275,18 +226,41 @@ namespace WebApplication1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Test", x => x.ResultExamId);
+                    table.PrimaryKey("PK_ResultExam", x => x.ResultExamId);
                     table.ForeignKey(
-                        name: "FK_Test_Exam_ExamId",
+                        name: "FK_ResultExam_Exam_ExamId",
                         column: x => x.ExamId,
                         principalTable: "Exam",
                         principalColumn: "ExamId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Test_Users_UserId",
+                        name: "FK_ResultExam_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Class",
+                columns: table => new
+                {
+                    ClassId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NameClass = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    LearningResultLRId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Class", x => x.ClassId);
+                    table.ForeignKey(
+                        name: "FK_Class_LearningResult_LearningResultLRId",
+                        column: x => x.LearningResultLRId,
+                        principalTable: "LearningResult",
+                        principalColumn: "LRId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -315,6 +289,70 @@ namespace WebApplication1.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "DetailClass",
+                columns: table => new
+                {
+                    DetailClassId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClassId = table.Column<int>(type: "int", nullable: false),
+                    SemesterId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DetailClass", x => x.DetailClassId);
+                    table.ForeignKey(
+                        name: "FK_DetailClass_Class_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Class",
+                        principalColumn: "ClassId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DetailClass_Semester_SemesterId",
+                        column: x => x.SemesterId,
+                        principalTable: "Semester",
+                        principalColumn: "SemesterId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DetailSubject",
+                columns: table => new
+                {
+                    DetailSubjectId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClassId = table.Column<int>(type: "int", nullable: false),
+                    ScheduleId = table.Column<int>(type: "int", nullable: false),
+                    SubjectId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DetailSubject", x => x.DetailSubjectId);
+                    table.ForeignKey(
+                        name: "FK_DetailSubject_Class_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Class",
+                        principalColumn: "ClassId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DetailSubject_Schedule_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalTable: "Schedule",
+                        principalColumn: "ScheduleId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DetailSubject_Subject_SubjectId",
+                        column: x => x.SubjectId,
+                        principalTable: "Subject",
+                        principalColumn: "SubjectId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Class_LearningResultLRId",
+                table: "Class",
+                column: "LearningResultLRId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_ContentTest_ExamID",
                 table: "ContentTest",
@@ -324,6 +362,31 @@ namespace WebApplication1.Migrations
                 name: "IX_ContentTest_SubjectID",
                 table: "ContentTest",
                 column: "SubjectID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DetailClass_ClassId",
+                table: "DetailClass",
+                column: "ClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DetailClass_SemesterId",
+                table: "DetailClass",
+                column: "SemesterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DetailSubject_ClassId",
+                table: "DetailSubject",
+                column: "ClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DetailSubject_ScheduleId",
+                table: "DetailSubject",
+                column: "ScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DetailSubject_SubjectId",
+                table: "DetailSubject",
+                column: "SubjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Document_SubjectId",
@@ -347,29 +410,14 @@ namespace WebApplication1.Migrations
                 column: "ContentTestContentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedule_ClassId",
-                table: "Schedule",
-                column: "ClassId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Schedule_ScheduleId1",
-                table: "Schedule",
-                column: "ScheduleId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Schedule_SubjectId",
-                table: "Schedule",
-                column: "SubjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Test_ExamId",
-                table: "Test",
+                name: "IX_ResultExam_ExamId",
+                table: "ResultExam",
                 column: "ExamId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Test_UserId",
-                table: "Test",
+                name: "IX_ResultExam_UserId",
+                table: "ResultExam",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -381,34 +429,34 @@ namespace WebApplication1.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Document");
+                name: "DetailClass");
 
             migrationBuilder.DropTable(
-                name: "LearningResult");
+                name: "DetailSubject");
+
+            migrationBuilder.DropTable(
+                name: "Document");
 
             migrationBuilder.DropTable(
                 name: "Question");
 
             migrationBuilder.DropTable(
-                name: "Schedule");
+                name: "ResultExam");
 
             migrationBuilder.DropTable(
-                name: "Test");
-
-            migrationBuilder.DropTable(
-                name: "TestSchedule");
-
-            migrationBuilder.DropTable(
-                name: "ContentTest");
+                name: "Semester");
 
             migrationBuilder.DropTable(
                 name: "Class");
 
             migrationBuilder.DropTable(
-                name: "ResultExam");
+                name: "Schedule");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "ContentTest");
+
+            migrationBuilder.DropTable(
+                name: "LearningResult");
 
             migrationBuilder.DropTable(
                 name: "Exam");
@@ -417,10 +465,13 @@ namespace WebApplication1.Migrations
                 name: "Subject");
 
             migrationBuilder.DropTable(
-                name: "Role");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Answer");
+                name: "TypeExam");
+
+            migrationBuilder.DropTable(
+                name: "Role");
         }
     }
 }

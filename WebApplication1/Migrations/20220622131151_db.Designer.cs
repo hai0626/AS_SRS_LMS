@@ -12,8 +12,8 @@ using WebApplication1.Model;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20220620145513_db1")]
-    partial class db1
+    [Migration("20220622131151_db")]
+    partial class db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,10 @@ namespace WebApplication1.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
+                    b.Property<string>("LearningResultLRId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Link")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -47,6 +51,8 @@ namespace WebApplication1.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("ClassId");
+
+                    b.HasIndex("LearningResultLRId");
 
                     b.ToTable("Class");
                 });
@@ -95,27 +101,22 @@ namespace WebApplication1.Migrations
                     b.Property<int>("SemesterId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("DetailClassId");
 
                     b.HasIndex("ClassId");
 
                     b.HasIndex("SemesterId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("DetailClass");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.DetailSubject", b =>
                 {
-                    b.Property<int>("DetailId")
+                    b.Property<int>("DetailSubjectId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DetailId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DetailSubjectId"), 1L, 1);
 
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
@@ -123,17 +124,14 @@ namespace WebApplication1.Migrations
                     b.Property<int>("ScheduleId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ScheduleId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
-                    b.HasKey("DetailId");
+                    b.HasKey("DetailSubjectId");
 
                     b.HasIndex("ClassId");
 
-                    b.HasIndex("ScheduleId1");
+                    b.HasIndex("ScheduleId");
 
                     b.HasIndex("SubjectId");
 
@@ -354,9 +352,11 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Model.Schedule", b =>
                 {
-                    b.Property<string>("ScheduleId")
+                    b.Property<int>("ScheduleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduleId"), 1L, 1);
 
                     b.Property<int>("DayLearn")
                         .HasColumnType("int");
@@ -488,6 +488,17 @@ namespace WebApplication1.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("WebApplication1.Model.Class", b =>
+                {
+                    b.HasOne("WebApplication1.Model.LearningResult", "LearningResult")
+                        .WithMany()
+                        .HasForeignKey("LearningResultLRId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LearningResult");
+                });
+
             modelBuilder.Entity("WebApplication1.Model.ContentTest", b =>
                 {
                     b.HasOne("WebApplication1.Model.Exam", "Exam")
@@ -510,7 +521,7 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.Model.DetailClass", b =>
                 {
                     b.HasOne("WebApplication1.Model.Class", "Class")
-                        .WithMany()
+                        .WithMany("DetailClass")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -521,30 +532,24 @@ namespace WebApplication1.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication1.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Class");
 
                     b.Navigation("Semester");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.DetailSubject", b =>
                 {
                     b.HasOne("WebApplication1.Model.Class", "Class")
-                        .WithMany()
+                        .WithMany("DetailSubject")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebApplication1.Model.Schedule", "Schedule")
                         .WithMany()
-                        .HasForeignKey("ScheduleId1");
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebApplication1.Model.Subject", "Subject")
                         .WithMany("DetailSubjects")
@@ -627,6 +632,13 @@ namespace WebApplication1.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("WebApplication1.Model.Class", b =>
+                {
+                    b.Navigation("DetailClass");
+
+                    b.Navigation("DetailSubject");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.ContentTest", b =>

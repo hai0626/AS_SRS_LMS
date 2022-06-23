@@ -6,7 +6,7 @@ namespace WebApplication1.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int DetailId { get; set; }
+        public int DetailSubjectId { get; set; }
         public int ClassId { get; set; }
         public Class Class { get; set; }
         public int ScheduleId { get; set; }

@@ -8,23 +8,23 @@ namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClassController : ControllerBase
+    public class SubjectController : ControllerBase
     {
-        private readonly IClass _class;
-        public ClassController(IClass cls)
+        private readonly ISubject _subject;
+        public SubjectController(ISubject sub)
         {
-            _class = cls;
+            _subject = sub;
         }
-        [HttpGet("get-all-class")]
-        public ActionResult<IEnumerable<User>> GetUsers()
+        [HttpGet("get-all-subject")]
+        public ActionResult<IEnumerable<Subject>> GetUsers()
         {
-            var cls = _class.GetAllClass();
+            var cls = _subject.GetAllSubject();
             return Ok(cls);
         }
-        [HttpPost("add-class")]
-        public IActionResult AddClass(ClassRequest request)
+        [HttpPost("add-subject")]
+        public IActionResult AddClass(SubjectRequest request)
         {
-            var add = _class.AddClass(request);
+            var add = _subject.AddSubject(request);
             if (add == 0)
             {
                 return BadRequest(new { message = "ten lop da ton tai" });
@@ -32,20 +32,20 @@ namespace WebApplication1.Controllers
             return Ok(new { message = "tao lop thanh cong" });
         }
         
-        [HttpDelete("delete-class")]
+        [HttpDelete("delete-subject")]
         public IActionResult DeleteClass(int id)
         {
-            int login = _class.DeleteClass(id);
+            int login = _subject.DeleteSubject(id);
             if (login == 0)
             {
                 return BadRequest(new { message = "khong tim thay lop" });
             }
             return Ok(new { message = "xoa thanh cong" });
         }
-        [HttpPost("update-class")]
-        public IActionResult UpdateClass(int id, ClassRequest rq)
+        [HttpPost("update-subject")]
+        public IActionResult UpdateClass(int id, SubjectRequest rq)
         {
-            int login = _class.UpdateClass(id, rq);
+            int login = _subject.UpdateSubject(id, rq);
             if (login == 0)
             {
                 return BadRequest(new { message = "khong tim thay lop" });

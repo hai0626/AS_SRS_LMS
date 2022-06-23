@@ -21,6 +21,7 @@ namespace WebApplication1.Model
         public Role Role { get; set; }
         public LearningResult LearningResult { get; set; }
         public List<ResultExam> ResultExam { get; set; }
+        
 
     }
 }

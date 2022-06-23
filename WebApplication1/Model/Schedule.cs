@@ -6,7 +6,7 @@ namespace WebApplication1.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string ScheduleId { get; set; }
+        public int ScheduleId { get; set; }
         public float ScheduleName { get; set; }
         public DayOfWeek DayLearn { get; set; }
         public string Start { get; set; }

@@ -12,8 +12,8 @@ using WebApplication1.Model;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20220620145308_db")]
-    partial class db
+    [Migration("20220623014906_db2")]
+    partial class db2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -81,13 +81,36 @@ namespace WebApplication1.Migrations
                     b.ToTable("ContentTest");
                 });
 
-            modelBuilder.Entity("WebApplication1.Model.DetailSubject", b =>
+            modelBuilder.Entity("WebApplication1.Model.DetailClass", b =>
                 {
-                    b.Property<int>("DetailId")
+                    b.Property<int>("DetailClassId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DetailId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DetailClassId"), 1L, 1);
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SemesterId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DetailClassId");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("SemesterId");
+
+                    b.ToTable("DetailClass");
+                });
+
+            modelBuilder.Entity("WebApplication1.Model.DetailSubject", b =>
+                {
+                    b.Property<int>("DetailSubjectId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DetailSubjectId"), 1L, 1);
 
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
@@ -95,22 +118,18 @@ namespace WebApplication1.Migrations
                     b.Property<int>("ScheduleId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ScheduleId1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
-                    b.HasKey("DetailId");
+                    b.HasKey("DetailSubjectId");
 
                     b.HasIndex("ClassId");
 
-                    b.HasIndex("ScheduleId1");
+                    b.HasIndex("ScheduleId");
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Schedule");
+                    b.ToTable("DetailSubject");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Document", b =>
@@ -121,15 +140,13 @@ namespace WebApplication1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocumentId"), 1L, 1);
 
-                    b.Property<int>("IdSubject")
-                        .HasColumnType("int");
-
                     b.Property<string>("Link")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NameDocument")
-                        .HasColumnType("int");
+                    b.Property<string>("NameDocument")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
@@ -305,7 +322,7 @@ namespace WebApplication1.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Test");
+                    b.ToTable("ResultExam");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Role", b =>
@@ -327,9 +344,11 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Model.Schedule", b =>
                 {
-                    b.Property<string>("ScheduleId")
+                    b.Property<int>("ScheduleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduleId"), 1L, 1);
 
                     b.Property<int>("DayLearn")
                         .HasColumnType("int");
@@ -347,7 +366,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("ScheduleId");
 
-                    b.ToTable("ResultExam");
+                    b.ToTable("Schedule");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Semester", b =>
@@ -370,7 +389,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("SemesterId");
 
-                    b.ToTable("TestSchedule");
+                    b.ToTable("Semester");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.Subject", b =>
@@ -411,7 +430,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("TypeExamId");
 
-                    b.ToTable("Answer");
+                    b.ToTable("TypeExam");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.User", b =>
@@ -480,17 +499,36 @@ namespace WebApplication1.Migrations
                     b.Navigation("Subject");
                 });
 
+            modelBuilder.Entity("WebApplication1.Model.DetailClass", b =>
+                {
+                    b.HasOne("WebApplication1.Model.Class", "Class")
+                        .WithMany("DetailClass")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication1.Model.Semester", "Semester")
+                        .WithMany()
+                        .HasForeignKey("SemesterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Semester");
+                });
+
             modelBuilder.Entity("WebApplication1.Model.DetailSubject", b =>
                 {
                     b.HasOne("WebApplication1.Model.Class", "Class")
-                        .WithMany()
+                        .WithMany("DetailSubject")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebApplication1.Model.Schedule", "Schedule")
                         .WithMany()
-                        .HasForeignKey("ScheduleId1")
+                        .HasForeignKey("ScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -575,6 +613,13 @@ namespace WebApplication1.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("WebApplication1.Model.Class", b =>
+                {
+                    b.Navigation("DetailClass");
+
+                    b.Navigation("DetailSubject");
                 });
 
             modelBuilder.Entity("WebApplication1.Model.ContentTest", b =>
